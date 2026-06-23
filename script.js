@@ -11,7 +11,6 @@ function initFluidPetalsEngine() {
     petalCanvas.width = window.innerWidth; petalCanvas.height = window.innerHeight;
 
     petalsArray = [];
-    // Creating fluid mixture of Rose (Red) and Marigold (Orange/Yellow) petals
     for (let i = 0; i < 35; i++) {
         petalsArray.push({
             x: Math.random() * petalCanvas.width,
@@ -20,7 +19,7 @@ function initFluidPetalsEngine() {
             speedY: Math.random() * 0.6 + 0.4,
             speedX: Math.random() * 0.4 - 0.2,
             opacity: Math.random() * 0.6 + 0.3,
-            colorType: Math.random() > 0.5 ? '#C0392B' : '#E67E22', // Crimson Red vs Deep Orange
+            colorType: Math.random() > 0.5 ? '#C0392B' : '#E67E22', 
             oscillationSpeed: Math.random() * 0.02 + 0.01,
             oscillationAmount: Math.random() * 1.5
         });
@@ -41,13 +40,12 @@ function initFluidPetalsEngine() {
             }
 
             petalCtx.beginPath();
-            // Draw smooth organic petal shapes instead of simple circles
             petalCtx.ellipse(p.x, p.y, p.size, p.size * 1.4, Math.sin(angle), 0, Math.PI * 2);
             petalCtx.fillStyle = p.colorType;
             petalCtx.globalAlpha = p.opacity;
             petalCtx.fill();
         });
-        petalCtx.globalAlpha = 1.0; // Reset canvas layout alpha
+        petalCtx.globalAlpha = 1.0; 
         requestAnimationFrame(renderPetalsLoop);
     }
     renderPetalsLoop();
@@ -67,7 +65,7 @@ function triggerSacredSparkleBlast(clickX, clickY) {
             x: clickX, y: clickY, radius: Math.random() * 2.2 + 0.8,
             speedX: (Math.random() - 0.5) * 12, speedY: (Math.random() - 0.5) * 12,
             gravity: 0.12, opacity: 1,
-            color: Math.random() > 0.4 ? '#F3CD5F' : '#FF7F00' // Gold and Saffron mix
+            color: Math.random() > 0.4 ? '#F3CD5F' : '#FF7F00' 
         });
     }
     
@@ -87,18 +85,36 @@ function triggerSacredSparkleBlast(clickX, clickY) {
     animateSparkles();
 }
 
-// 🚪 3. MANDAP SPLIT GATE TRANSITION CONTROLLER
+// 🚪 3. MANDAP SPLIT GATE TRANSITION CONTROLLER (FORCE AUDIO BYPASS INTERACTION)
 let isGateDestroyed = false;
 function triggerGateDeployment(event) {
     if (isGateDestroyed) return;
     isGateDestroyed = true;
 
     const gateScreen = document.getElementById('gift-vault-screen');
+    const music = document.getElementById('bgMusic');
+    const audioOrb = document.getElementById('audio-orb-controller');
+    
     const clickX = event.clientX || window.innerWidth / 2;
     const clickY = event.clientY || window.innerHeight / 2;
     
     gateScreen.classList.add('box-clicked');
     triggerSacredSparkleBlast(clickX, clickY);
+
+    // ⚡ CRUCIAL MUSIC FORCED AUTOPLAY TRIGGER (Activated directly on physical click thread)
+    if (music) {
+        music.muted = false;
+        music.loop = true; // Hardcoded fallback loop stream lock
+        music.volume = 0.55;
+        let playPromise = music.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                audioOrb.classList.add('playing');
+            }).catch(error => {
+                console.log("Browser block bypass handled via Orb interaction fallback.");
+            });
+        }
+    }
 
     setTimeout(() => {
         gateScreen.classList.add('gate-deployed');
@@ -109,15 +125,8 @@ function triggerGateDeployment(event) {
                 document.getElementById('main-content-vault').style.opacity = '1';
                 initFluidPetalsEngine(); 
                 initScratchModule();      
-                initShubhMuhuratClock(); // Trigger reverse ticker matrix
+                initShubhMuhuratClock(); 
             }, 50);
-
-            const music = document.getElementById('bgMusic');
-            const audioOrb = document.getElementById('audio-orb-controller');
-            if (music) { 
-                music.volume = 0.50; 
-                music.play().then(() => audioOrb.classList.add('playing')).catch(() => {}); 
-            }
         }, 1300);
     }, 350);
 }
@@ -172,7 +181,6 @@ function initScratchModule() {
 
     ctx.fillStyle = goldGrad; ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    // Traditional dust overlay spray texture effect on canvas surface
     for (let i = 0; i < 700; i++) {
         let x = Math.random() * canvas.width; let y = Math.random() * canvas.height;
         ctx.fillStyle = Math.random() > 0.5 ? 'rgba(255,255,255,0.13)' : 'rgba(0,0,0,0.08)';
@@ -213,7 +221,6 @@ document.getElementById('traditionalWeddingRsvpForm').addEventListener('submit',
     submitBtn.innerText = "SUBMITTING...";
     submitBtn.disabled = true;
 
-    // Direct state response clear injection bypass
     const nameVal = nameInput.value.trim();
     const phoneVal = phoneInput.value.trim();
     const sideVal = sideInput.value;
@@ -221,7 +228,6 @@ document.getElementById('traditionalWeddingRsvpForm').addEventListener('submit',
     const countVal = countInput.value;
     const msgVal = msgInput.value.trim();
 
-    // Map properties matching exactly with your target schema
     const targetFormData = new URLSearchParams();
     targetFormData.append('name', nameVal);
     targetFormData.append('phone', phoneVal);
@@ -232,12 +238,12 @@ document.getElementById('traditionalWeddingRsvpForm').addEventListener('submit',
 
     fetch(DEPLOYMENT_URL, {
         method: "POST",
-        mode: "no-cors", // Bypassing browser-side response evaluation lock stream
+        mode: "no-cors", 
         body: targetFormData,
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
     })
     .then(() => {
-        alert(`Dhanyavaad! Your RSVP response has been successfully registered under ${sideVal}. 🙏✨`);
+        alert(`Thank you! Your RSVP response has been successfully registered under ${sideVal}. 🙏✨`);
         nameInput.value = "";
         phoneInput.value = "";
         countInput.value = "";
@@ -249,4 +255,4 @@ document.getElementById('traditionalWeddingRsvpForm').addEventListener('submit',
         submitBtn.disabled = false;
     });
 });
-                  
+                
